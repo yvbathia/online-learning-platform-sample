@@ -1,0 +1,50 @@
+.root {
+  cursor: pointer;
+}
+
+.container {
+  width: 95%;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.75);
+  margin: 10px;
+  background-color: white;
+}
+
+.done {
+  border: 2px solid green;
+}
+
+.notDoing {
+  border: 2px solid red;
+}
+
+.nextClass {
+  border: 2px solid blue;
+}
+
+.img {
+  margin-top: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: -40px;
+  > button {
+    outline: none;
+    background: transparent;
+    border: none;
+  }
+}
+
+.title {
+  font-size: 15px;
+}

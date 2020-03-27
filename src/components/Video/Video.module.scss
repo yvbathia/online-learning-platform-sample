@@ -1,0 +1,56 @@
+.root {
+  height: 100%;
+  width: 100%;
+}
+.video {
+  height: 98%;
+  width: 98%;
+}
+.imageContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.iframe {
+  height: 100%;
+  width: 100%;
+}
+
+.play {
+  position: absolute;
+  > button {
+    background: transparent;
+    outline: none;
+  }
+}
+
+.img {
+  height: 75px;
+  width: 75px;
+}
+
+.thumbnail {
+  height: 98%;
+  width: 98%;
+  > img {
+    height: 100%;
+    width: 100%;
+    opacity: 0.3;
+  }
+}
+
+.thumbnails {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  >img {
+    height: 100px;
+    width: 120px;
+    opacity: 0.6;
+    margin-left: 10px;
+  }
+}
