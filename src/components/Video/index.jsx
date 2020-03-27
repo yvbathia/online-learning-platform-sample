@@ -29,10 +29,10 @@ const Video = ({ urls }) => {
       setIsLoading(false);
       setVideoUrls(videoUrlSet);
       setVideoThumbnails(videoThumbnailSet);
+      setIsPLay(false);
     }
     fetchData();
   }, [urls]);
-  console.log(currentIndex);
 
   return (
     <div className={s.root}>
