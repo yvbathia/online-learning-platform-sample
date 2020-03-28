@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import s from "./Home.module.scss";
-// import ReactPlayer from "react-player";
+
 import LessionIcon from "../../components/LessionIcon";
 import Objectives from "../../components/Objectives";
 import { objectiveStateEnum } from "../../constants";
 import Video from "../../components/Video";
+import ActivityContext from "../../ActivityContext";
+import Popup from "../../components/PopUp";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,6 +14,10 @@ const Home = () => {
   const [objectState, setObjectState] = useState([[]]);
   const [data, setData] = useState({});
   const [currentVideoSet, setCurrentVideoSet] = useState([]);
+  const [currentObject, setCurrentObject] = useState(0);
+  const [showClassRoom, setShowClassRoom] = useState(false);
+  const [showActivity, setShowActivity] = useState(false);
+  const { activity, addActivity } = useContext(ActivityContext);
   useEffect(() => {
     fetch("https://api.myjson.com/bins/qubzl")
       .then(res => res.json())
@@ -59,19 +65,26 @@ const Home = () => {
       setData(newData);
     }
     setObjectState(newObjectiveData);
+    addActivity({
+      "Change Objective status": objectiveStateEnum[value],
+      time: Date.now()
+    });
   };
 
   const handleChangeLession = index => {
     setCurrentLession(index);
-    setCurrentVideoSet(
-      data.lessonDetails[index].objects[0].videoDetails
-    );
+    setCurrentVideoSet(data.lessonDetails[index].objects[0].videoDetails);
+    addActivity({
+      "Change lession": index + 1,
+      "Change Objective": data.lessonDetails[index].objects[0].title,
+      time: Date.now()
+    });
   };
 
   return (
     <div className={s.root}>
       <div className={s.container}>
-        {!isLoading && (
+        {!isLoading && !showClassRoom && !showActivity && (
           <>
             <div className={s.headContainer}>
               <div className={s.head}>
@@ -104,6 +117,7 @@ const Home = () => {
                             key={index}
                             onClick={() => {
                               setCurrentVideoSet(element.videoDetails);
+                              setCurrentObject(index);
                             }}
                           >
                             <Objectives
@@ -112,6 +126,9 @@ const Home = () => {
                                 objectiveStateEnum[
                                   objectState[currentLession][index]
                                 ]
+                              }
+                              className={
+                                currentObject === index ? s.activeObjective : ""
                               }
                               onClick={value =>
                                 handleObjectChange(index, value)
@@ -125,9 +142,37 @@ const Home = () => {
               </div>
               <div className={s.videoContainer}>
                 <Video urls={currentVideoSet} />
+                <div className={s.userActivity}>
+                  <button
+                    className={s.btn}
+                    onClick={() => setShowActivity(true)}
+                  >
+                    <span aria-label="View Activity" role="img">
+                      👨‍🏫
+                    </span>
+                  </button>
+                  <button
+                    className={s.btn}
+                    onClick={() => setShowClassRoom(true)}
+                  >
+                    <span aria-label="View Classroom" role="img">
+                      📚
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </>
+        )}
+        {!isLoading && showClassRoom && (
+          <div>
+            <Popup data={data} onClose={() => setShowClassRoom(false)} />
+          </div>
+        )}
+        {!isLoading && showActivity && (
+          <div>
+            <Popup data={activity} onClose={() => setShowActivity(false)} />
+          </div>
         )}
       </div>
     </div>

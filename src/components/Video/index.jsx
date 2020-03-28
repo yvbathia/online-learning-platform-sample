@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import PlayLogo from "../../Images/play.png";
 import s from "./Video.module.scss";
+import ActivityContext from "../../ActivityContext";
 
 const propTypes = {
   urls: PropTypes.array.isRequired
@@ -14,6 +15,7 @@ const Video = ({ urls }) => {
   const [videoUrls, setVideoUrls] = useState([]);
   const [videoThumbnails, setVideoThumbnails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { addActivity } = useContext(ActivityContext);
   useEffect(() => {
     async function fetchData() {
       let videoUrlSet = [];
@@ -54,7 +56,15 @@ const Video = ({ urls }) => {
             <img src={videoThumbnails[currentIndex]} alt="thumbnail" />
           </div>
           <div className={s.play}>
-            <button onClick={() => setIsPLay(true)}>
+            <button
+              onClick={() => {
+                setIsPLay(true);
+                addActivity({
+                  "Watching video": videoUrls[currentIndex],
+                  time: Date.now()
+                });
+              }}
+            >
               <img className={s.img} src={PlayLogo} alt="play" />
             </button>
           </div>

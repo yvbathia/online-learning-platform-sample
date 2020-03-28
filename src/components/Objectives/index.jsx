@@ -25,7 +25,7 @@ const Objectives = ({ value, theme, className, onClick }) => {
   };
   return (
     <div className={s.root}>
-      <div className={[s.container, className, s[theme]].join(" ")}>
+      <div className={[s.container, s[theme], className].join(" ")}>
         <h3 className={s.title}>{value}</h3>
       </div>
       <div className={s.btn}>
